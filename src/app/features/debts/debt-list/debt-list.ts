@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, input, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
@@ -26,6 +26,7 @@ import { DecimalPipe } from '@angular/common';
 export class DebtListComponent implements OnInit {
   private fb = inject(FormBuilder);
   private debtService = inject(DebtService);
+  debtChanged = output<void>();
 
   displayedColumns = ['debtorName', 'debtType', 'balance', 'debtStatus', 'actions'];
   debts = signal<Debt[]>([]);
@@ -39,15 +40,28 @@ export class DebtListComponent implements OnInit {
     status: ['']
   });
 
-  ngOnInit() {
-    this.loadDebts();
+  debtType = input<'I_OWE' | 'OWED_TO_ME' | null>(null);
+  excludeArchived = input<boolean>(false);
 
+  ngOnInit() {
     this.filterForm.valueChanges
-      .pipe(debounceTime(400), distinctUntilChanged())
-      .subscribe(() => {
-        this.pageIndex.set(0);
-        this.loadDebts();
-      });
+    .pipe(debounceTime(400), distinctUntilChanged())
+    .subscribe(() => {
+      this.pageIndex.set(0);
+      this.loadDebts();
+    });
+
+    const fixedType = this.debtType();
+    if (fixedType) {
+    this.filterForm.patchValue({ type: fixedType });
+    this.filterForm.get('type')?.disable();
+    }
+    if (this.excludeArchived()) {
+      this.filterForm.patchValue({ status: 'OPEN' });
+      this.filterForm.get('status')?.disable();
+    }
+
+    this.loadDebts();
   }
 
   loadDebts() {
@@ -71,6 +85,9 @@ export class DebtListComponent implements OnInit {
   }
 
   onToggleStatus(debt: Debt) {
-    this.debtService.toggleStatus(debt.uuid).subscribe(() => this.loadDebts());
+    this.debtService.toggleStatus(debt.uuid).subscribe(() => {
+    this.loadDebts();
+    this.debtChanged.emit();
+    });
   }
 }

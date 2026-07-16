@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, input, effect } from '@angular/core';
+import { Component, OnInit, inject, signal, input, computed } from '@angular/core';
 import { DecimalPipe, DatePipe } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
@@ -38,7 +38,11 @@ export class TransactionListComponent implements OnInit {
   return `${year}-${month}-${day}`;
   }
 
-  displayedColumns = ['date', 'action', 'amount', 'note', 'status'];
+  displayedColumns = computed(() =>
+    this.debtUuid()
+      ? ['date', 'action', 'amount', 'note', 'status']
+      : ['date', 'debtorName', 'action', 'amount', 'note', 'status']
+  );
   transactions = signal<Transaction[]>([]);
   totalElements = signal(0);
   pageIndex = signal(0);

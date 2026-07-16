@@ -1,1 +1,15 @@
-<p>dashboard works!</p>
+<div class="dashboard-grid">
+  <section class="column">
+    <h2>I Owe: {{ totalIOwe() | number:'1.2-2' }} €</h2>
+    <app-debt-list [debtType]="'I_OWE'" [excludeArchived]="true"
+      (debtChanged)="loadTotal('I_OWE', totalIOwe)"/>
+    <app-transaction-list [debtType]="'I_OWE'" />
+  </section>
+
+  <section class="column">
+    <h2>Owed to me: {{ totalOwedToMe() | number:'1.2-2' }} €</h2>
+    <app-debt-list [debtType]="'OWED_TO_ME'" [excludeArchived]="true"
+      (debtChanged)="loadTotal('OWED_TO_ME', totalOwedToMe)"/>
+    <app-transaction-list [debtType]="'OWED_TO_ME'" />
+  </section>
+</div>

@@ -1,6 +1,6 @@
 <div class="debt-list-container">
   <div class="header">
-    <h1>Debts</h1>
+    
     <a mat-raised-button color="primary" routerLink="/debts/new">
       <mat-icon>add</mat-icon> New Debt
     </a>
@@ -21,14 +21,16 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+    @if (!excludeArchived()) {
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
       <mat-label>Status</mat-label>
       <mat-select formControlName="status">
         <mat-option value="">All</mat-option>
         <mat-option value="OPEN">Open</mat-option>
         <mat-option value="ARCHIVED">Archived</mat-option>
       </mat-select>
-    </mat-form-field>
+      </mat-form-field>
+    }  
   </form>
 
   <table mat-table [dataSource]="debts()" class="debt-table">
@@ -66,7 +68,7 @@
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef= "displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
