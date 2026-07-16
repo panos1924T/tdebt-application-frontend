@@ -17,7 +17,7 @@
         </mat-chip-set>
 
         @if (d.description) {
-          <p class="description">{{ d.description }}</p>
+          <p class="description"><strong> {{ d.description }} </strong></p>
         }
 
         @if (errorMessage()) {
@@ -41,8 +41,8 @@
     </mat-card>
   </div>
   <h2>Transactions</h2>
-  <a mat-raised-button color="primary" [routerLink]="['/debts', d.uuid,  'transactions', 'new']">
-  <mat-icon>add</mat-icon> New Transaction </a>
+  <a class="mb-4" mat-raised-button color="primary" [routerLink]="['/debts', d.uuid,  'transactions', 'new']">
+  <mat-icon class=>add</mat-icon> New Transaction </a>
   <app-transaction-list [debtUuid]="d.uuid"></app-transaction-list>
 } @else if (errorMessage()) {
   <p class="error-msg">{{ errorMessage() }}</p>
