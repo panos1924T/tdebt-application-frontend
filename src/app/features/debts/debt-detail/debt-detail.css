@@ -1,0 +1,30 @@
+.debt-detail-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.balance-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 12px;
+}
+
+.balance-label {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.balance-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.description {
+  margin-top: 12px;
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.error-msg {
+  color: #d32f2f;
+  font-size: 0.875rem;
+}

@@ -1,0 +1,27 @@
+.debt-list-container {
+  padding: 16px 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.filters {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.debt-table {
+  width: 100%;
+}
+
+.empty-state {
+  text-align: center;
+  color: rgba(0, 0, 0, 0.54);
+  padding: 32px;
+}

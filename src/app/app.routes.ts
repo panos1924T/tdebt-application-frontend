@@ -12,6 +12,10 @@ export const routes: Routes = [
       { path: 'dashboard', loadComponent: () => import('./features/dashboard/dashboard').then(m => m.DashboardComponent) },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'debts', loadComponent: () => import('./features/debts/debt-list/debt-list').then(m => m.DebtListComponent) },
+      { path: 'debts', loadComponent: () => import('./features/debts/debt-list/debt-list').then(m => m.DebtListComponent) },
+      { path: 'debts/new', loadComponent: () => import('./features/debts/debt-form/debt-form').then(m => m.DebtFormComponent) },
+      { path: 'debts/:uuid/edit', loadComponent: () => import('./features/debts/debt-form/debt-form').then(m => m.DebtFormComponent) },
+      { path: 'debts/:uuid', loadComponent: () => import('./features/debts/debt-detail/debt-detail').then(m => m.DebtDetailComponent) }
     ]
   },
   { path: '**', redirectTo: 'login' }

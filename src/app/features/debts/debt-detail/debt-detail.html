@@ -1,0 +1,45 @@
+@if (debt(); as d) {
+  <div class="debt-detail-container">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{ d.debtorName }}</mat-card-title>
+        <mat-card-subtitle>{{ d.debtType === 'I_OWE' ? 'I Owe' : 'Owed to me' }}</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="balance-row">
+          <span class="balance-label">Balance</span>
+          <span class="balance-value">{{ d.balance | number:'1.2-2' }} €</span>
+        </div>
+
+        <mat-chip-set>
+          <mat-chip [color]="d.debtStatus === 'OPEN' ? 'primary' : undefined">{{ d.debtStatus }}</mat-chip>
+        </mat-chip-set>
+
+        @if (d.description) {
+          <p class="description">{{ d.description }}</p>
+        }
+
+        @if (errorMessage()) {
+          <p class="error-msg">{{ errorMessage() }}</p>
+        }
+      </mat-card-content>
+
+      <mat-card-actions>
+        <a mat-button [routerLink]="['/debts', d.uuid, 'edit']">
+          <mat-icon>edit</mat-icon> Edit
+        </a>
+        <button mat-button (click)="onToggleStatus()">
+          <mat-icon>{{ d.debtStatus === 'OPEN' ? 'archive' : 'unarchive' }}</mat-icon>
+          {{ d.debtStatus === 'OPEN' ? 'Archive' : 'Reopen' }}
+        </button>
+        <button mat-button color="warn" (click)="onDelete()">
+          <mat-icon>delete</mat-icon> Delete
+        </button>
+        <a mat-button routerLink="/debts">Back to list</a>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+} @else if (errorMessage()) {
+  <p class="error-msg">{{ errorMessage() }}</p>
+}
