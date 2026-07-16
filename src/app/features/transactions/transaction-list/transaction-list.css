@@ -1,0 +1,26 @@
+.transaction-table {
+  width: 100%;
+}
+
+.empty-state {
+  text-align: center;
+  color: rgba(0, 0, 0, 0.54);
+  padding: 32px;
+}
+
+.filters {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.transaction-table {
+  width: 100%;
+}
+
+.empty-state {
+  text-align: center;
+  color: rgba(0, 0, 0, 0.54);
+  padding: 32px;
+}

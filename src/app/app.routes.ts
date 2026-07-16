@@ -15,7 +15,9 @@ export const routes: Routes = [
       { path: 'debts', loadComponent: () => import('./features/debts/debt-list/debt-list').then(m => m.DebtListComponent) },
       { path: 'debts/new', loadComponent: () => import('./features/debts/debt-form/debt-form').then(m => m.DebtFormComponent) },
       { path: 'debts/:uuid/edit', loadComponent: () => import('./features/debts/debt-form/debt-form').then(m => m.DebtFormComponent) },
-      { path: 'debts/:uuid', loadComponent: () => import('./features/debts/debt-detail/debt-detail').then(m => m.DebtDetailComponent) }
+      { path: 'debts/:uuid', loadComponent: () => import('./features/debts/debt-detail/debt-detail').then(m => m.DebtDetailComponent) },
+      { path: 'debts/:debtUuid/transactions/new', loadComponent: () => import('./features/transactions/transaction-form/transaction-form').then(m => m.TransactionFormComponent) },
+      { path: 'debts/:debtUuid/transactions/:transUuid/correct', loadComponent: () => import('./features/transactions/transaction-correction/transaction-correction').then(m => m.TransactionCorrectionComponent) },
     ]
   },
   { path: '**', redirectTo: 'login' }

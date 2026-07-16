@@ -7,11 +7,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { DebtService } from '../debt.service';
 import { Debt } from '../../../core/models/debt-interface';
+import { TransactionListComponent } from "../../transactions/transaction-list/transaction-list";
 
 @Component({
   selector: 'app-debt-detail',
   standalone: true,
-  imports: [DecimalPipe, RouterLink, MatCardModule, MatButtonModule, MatIconModule, MatChipsModule],
+  imports: [DecimalPipe, RouterLink, MatCardModule, MatButtonModule, MatIconModule, MatChipsModule, TransactionListComponent],
   templateUrl: './debt-detail.html',
   styleUrl: './debt-detail.css'})
 
