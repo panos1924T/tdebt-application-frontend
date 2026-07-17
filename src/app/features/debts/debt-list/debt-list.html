@@ -1,7 +1,9 @@
 <div class="debt-list-container">
   <div class="header">
     
-    <a mat-raised-button color="primary" routerLink="/debts/new">
+    <a mat-raised-button color="primary" 
+      routerLink="/debts/new"
+      [queryParams]="debtType() ? { type: debtType() } : null">
       <mat-icon>add</mat-icon> New Debt
     </a>
   </div>

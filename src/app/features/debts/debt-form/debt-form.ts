@@ -33,12 +33,16 @@ export class DebtFormComponent implements OnInit {
 
   ngOnInit() {
     const uuid = this.route.snapshot.paramMap.get('uuid');
+    const typeParam = this.route.snapshot.queryParamMap.get('type') as 'I_OWE' | 'OWED_TO_ME' | null;
 
     if (uuid) {
       this.debtUuid.set(uuid);
       this.isEditMode.set(true);
       this.form.get('debtType')?.disable();
       this.loadDebt(uuid);
+    } else if (typeParam === 'I_OWE' || typeParam === 'OWED_TO_ME') {
+      this.form.patchValue({ debtType: typeParam });
+      this.form.get('debtType')?.disable();
     }
   }
 

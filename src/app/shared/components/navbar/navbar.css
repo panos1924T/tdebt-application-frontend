@@ -2,6 +2,8 @@
   font-weight: 600;
   font-size: 1.25rem;
   margin-right: 24px;
+  color: inherit;
+  text-decoration: none;
 }
 
 .spacer {
