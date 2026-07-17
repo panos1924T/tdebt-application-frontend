@@ -24,3 +24,7 @@ form {
   color: #d32f2f;
   font-size: 0.875rem;
 }
+
+:host {
+  overflow-y: auto;
+}
