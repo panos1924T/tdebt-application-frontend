@@ -255,9 +255,3 @@ npx ng serve
 
 - Angular CLI docs: https://angular.dev/tools/cli
 - Vitest docs: https://vitest.dev/
-
----
-
-## License
-
-Add your license information here.
