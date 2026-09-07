@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TransactionCorrection } from './transaction-correction';
+import { TransactionCorrectionComponent } from './transaction-correction';
 
-describe('TransactionCorrection', () => {
-  let component: TransactionCorrection;
-  let fixture: ComponentFixture<TransactionCorrection>;
+describe('TransactionCorrectionComponent', () => {
+  let component: TransactionCorrectionComponent;
+  let fixture: ComponentFixture<TransactionCorrectionComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TransactionCorrection],
+      imports: [TransactionCorrectionComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(TransactionCorrection);
+    fixture = TestBed.createComponent(TransactionCorrectionComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
