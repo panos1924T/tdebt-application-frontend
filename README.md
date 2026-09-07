@@ -1,257 +1,192 @@
-# TDebt Application Frontend
+# T-Debt Frontend
 
-The **TDebt Application Frontend** is the client-side web application for the TDebt platform.  
-It provides users with a clean interface to create, manage, and monitor debts, repayments, and financial obligations in real time.
+Angular frontend for the T-Debt application.
 
----
+It provides the user interface for authentication, debt management, transaction tracking, balance monitoring, filtering, and pagination. Business data is stored and processed by the separate T-Debt backend.
 
-## Business Model Summary
+[Backend repository](https://github.com/panos1924T/tdebt-application-backend)
 
-**TDebt** is a debt-management platform designed to make debt tracking transparent, simple, and actionable.
+## Main features
 
-### Problem
-People, shared households, and small teams often manage debts informally (chat messages, notes, spreadsheets), which leads to confusion, disputes, and delayed repayments.
+- User registration and login.
+- JWT-based authenticated requests.
+- Create, view, update, archive, and delete debts.
+- Add and correct debt transactions.
+- View current balances and transaction history.
+- Filter, sort, and paginate application data.
+- Display loading, validation, and API error states.
 
-### Value Proposition
-TDebt provides a single source of truth for debt records, repayment status, and history, reducing friction and improving trust between parties.
+## Tech stack
 
-### Target Users
-- Individuals managing personal debts
-- Groups splitting costs (roommates, friends, trips)
-- Small teams/businesses tracking lightweight receivables/payables
+- Angular
+- TypeScript
+- HTML and CSS
+- npm
+- Vitest for unit testing
 
----
+## Build and run locally
 
-## Tech Stack
+### 1. Prerequisites
 
-- **Angular CLI** `21.2.19`
-- **TypeScript**
-- **Node.js** (LTS recommended)
-- **Vitest** (unit testing)
+Install:
 
----
-
-## Prerequisites
-
-Install the following before running the app:
-
-- [Node.js (LTS)](https://nodejs.org/)
-- npm (bundled with Node.js)
+- [Node.js LTS](https://nodejs.org/), which includes npm
 - Git
 
-Check installed versions:
+Verify the installations:
 
 ```bash
-node -v
-npm -v
+node --version
+npm --version
 git --version
 ```
 
----
+You do not need to install Angular CLI globally. The project uses its local Angular CLI through the npm scripts.
 
-## Getting Started (from clone)
-
-### 1) Clone repository
+### 2. Clone the repository
 
 ```bash
 git clone https://github.com/panos1924T/tdebt-application-frontend.git
 cd tdebt-application-frontend
 ```
 
-### 2) Install dependencies
+Run the remaining commands from the project root, where `package.json` is located.
+
+### 3. Install dependencies
 
 ```bash
 npm install
 ```
 
-For CI or reproducible installs:
+This creates the local `node_modules` directory. Do not commit that directory to Git.
+
+For a clean, reproducible installation in CI or after a fresh clone, when `package-lock.json` is present, you can use:
 
 ```bash
 npm ci
 ```
 
-### 3) Configure environment
+### 4. Configure the backend connection
 
-Update Angular environment configuration files (typically under `src/environments/`) with the correct API base URL(s).
+The frontend needs the T-Debt backend API.
 
-Common setup pattern:
-- `environment.ts` → local development backend
-- `environment.prod.ts` → production backend
+For local development:
 
-If your project uses `.env` files, copy template values first:
+1. Configure the frontend API base URL to point to the local backend, normally `http://localhost:8080`.
+2. Start the backend and confirm that it runs successfully.
+3. Ensure the backend allows the frontend origin `http://localhost:4200` through its CORS configuration.
 
-```bash
-cp .env.example .env
-```
+The exact API URL must match the value used by the Angular services or environment configuration in this repository.
 
-### 4) Start development server
+### 5. Start the development server
 
 ```bash
-ng serve
+npm start
 ```
 
-Or (if configured in `package.json`):
+Open:
 
-```bash
-npm run start
+```text
+http://localhost:4200
 ```
 
-Open: `http://localhost:4200/`
+The development server watches the source files and reloads the application when you save changes. Stop it with `Ctrl+C`.
 
----
+## Recommended local startup order
 
-## Build
+1. Start PostgreSQL.
+2. Start the T-Debt backend on `http://localhost:8080`.
+3. Start this frontend with `npm start`.
+4. Open `http://localhost:4200` in the browser.
 
-Create a production build:
+## Production build
 
-```bash
-ng build
-```
-
-Or:
+Create an optimized production build:
 
 ```bash
 npm run build
 ```
 
-Build artifacts are generated in:
+The generated files are written under `dist/`. The exact subdirectory depends on the Angular build configuration.
 
-`dist/`
+This command only creates the static frontend files. A web server or hosting platform must serve those files in production.
 
----
+## Tests
 
-## Testing
-
-### Unit tests
+Run the unit tests:
 
 ```bash
-ng test
+npm test
 ```
 
-Or:
+Run the production build as an additional verification before committing or deploying:
 
 ```bash
-npm run test
+npm run build
 ```
 
-### End-to-end tests
+## Frontend and backend communication
 
-```bash
-ng e2e
-```
+The frontend sends HTTP requests to the backend API for authentication and all application data.
 
-> Note: Angular CLI does not include an e2e framework by default.  
-> Use your team’s configured framework (e.g., Cypress or Playwright).
+Typical request flow:
 
----
+1. The user performs an action in the Angular interface.
+2. An Angular service sends an HTTP request to the backend.
+3. The backend validates the request and returns JSON data or an error.
+4. The frontend updates the displayed state.
 
-## Frontend ↔ Backend Integration
+After login, the frontend attaches the JWT access token to protected API requests. The backend remains responsible for authorization, ownership checks, business rules, and persistence.
 
-The frontend is a presentation and interaction layer that depends on the TDebt backend APIs for business data and operations.
+## Useful commands
 
-## Link of the backend: https://github.com/panos1924T/tdebt-application-backend
-
-### How they connect
-
-1. The frontend reads the backend base URL from environment configuration.
-2. Angular services (e.g., `AuthService`, `DebtService`, etc.) send HTTP requests to backend endpoints.
-3. The backend validates requests, executes business logic, and returns JSON responses.
-4. The frontend updates UI state based on API responses (success, errors, loading states).
-
-### Typical request flow
-
-- User action in UI (create debt/transaction, fetch debts/transactions, login, register)
-- Frontend service sends HTTP request (`HttpClient`)
-- Backend API processes request
-- Frontend receives response and renders updated data
-
-### Authentication flow (typical)
-
-- User logs in from frontend
-- Backend returns an access token/session
-- Frontend stores token securely 
-- Token is attached to subsequent API requests (via HTTP interceptor)
-
-### CORS and local development
-
-For local development, ensure backend CORS allows requests from your frontend origin, usually:
-
-- `http://localhost:4200`
-
-If not configured, browser requests will fail before reaching your API logic.
-
-### Minimal backend requirements for local run
-
-- Backend server is running
-- API base URL in frontend environment points to correct backend host/port
-- Required auth/database services are available
-- CORS is enabled for frontend origin
-
----
-
-## Useful Angular Commands
-
-Generate a component:
-
-```bash
-ng generate component component-name
-```
-
-List available schematics:
-
-```bash
-ng generate --help
-```
-
----
-
-## Suggested Development Workflow
-
-1. Create a feature branch:
-   ```bash
-   git checkout -b feature/my-feature
-   ```
-2. Implement your changes
-3. Run tests and build locally
-4. Commit with a clear message:
-   ```bash
-   git commit -m "feat: add debt summary widget"
-   ```
-5. Push branch and open a Pull Request
-
----
+| Command | Purpose |
+| --- | --- |
+| `npm install` | Install or update dependencies |
+| `npm ci` | Reinstall exactly from `package-lock.json` |
+| `npm start` | Start the local development server |
+| `npm test` | Run unit tests |
+| `npm run build` | Create a production build |
+| `npx ng generate component component-name` | Generate a new Angular component |
 
 ## Troubleshooting
 
-### Port 4200 already in use
+### `npm` is not recognized
+
+Install Node.js LTS, restart the terminal, and run `node --version` and `npm --version` again.
+
+### Dependency installation fails
+
+Confirm that your Node.js version is compatible with the Angular version declared in `package.json`. On a clean clone with `package-lock.json`, try:
 
 ```bash
-ng serve --port 4300
+npm ci
 ```
 
-### Dependency issues (clean reinstall)
+### Port 4200 is already in use
+
+Start the frontend on another port:
 
 ```bash
-rm -rf node_modules package-lock.json
-npm install
+npx ng serve --port 4300
 ```
 
-### Angular CLI command not found
+Then update the backend CORS configuration to allow `http://localhost:4300`.
 
-```bash
-npx ng serve
-```
+### Frontend cannot reach the backend
 
-### Backend connection errors (4xx/5xx/network)
+Check:
 
-- Verify backend is running
-- Verify API URL in environment files
-- Check browser DevTools Network tab
-- Confirm CORS settings on backend
+- The backend is running.
+- The frontend uses the correct backend URL and port.
+- The backend CORS configuration allows the frontend origin.
+- The browser DevTools **Network** tab for the request URL, status code, and response.
 
----
+### HTTP 401 or 403
 
-## Additional Resources
+- `401 Unauthorized`: the token is missing, invalid, or expired.
+- `403 Forbidden`: the authenticated user does not have permission for the operation.
 
-- Angular CLI docs: https://angular.dev/tools/cli
-- Vitest docs: https://vitest.dev/
+### Clean reinstall
+
+Delete `node_modules` and run `npm ci` again. Keep `package-lock.json`, because it records the dependency versions used by the project.
