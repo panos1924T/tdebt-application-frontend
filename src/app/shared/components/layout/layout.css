@@ -21,3 +21,10 @@ app-navbar {
   width: 100%;
   background-color: #f7f7f5;
 }
+
+@media (max-width: 768px) {
+  .content {
+    padding: 8px;
+    overflow-y: auto;
+  }
+}

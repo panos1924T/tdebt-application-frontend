@@ -32,3 +32,11 @@
 :host {
   overflow-y: auto;
 }
+
+.transactions-title {
+  margin: 18px 0 10px;
+}
+
+.new-transaction-button {
+  margin-bottom: 16px;
+}

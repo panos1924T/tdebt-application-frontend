@@ -20,3 +20,14 @@
   margin-right: 8px;
   font-size: 0.875rem;
 }
+
+@media (max-width: 768px) {
+  .user-email {
+    display: none;
+  }
+
+  .logo {
+    margin-right: 8px;
+    font-size: 1.1rem;
+  }
+}

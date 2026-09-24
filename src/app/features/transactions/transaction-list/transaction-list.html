@@ -23,44 +23,108 @@
   </mat-form-field>
 </form>
 
-<table mat-table [dataSource]="transactions()" class="transaction-table">
-  <ng-container matColumnDef="date">
-    <th mat-header-cell *matHeaderCellDef>Date</th>
-    <td mat-cell *matCellDef="let t">{{ t.date | date:'dd/MM/yyyy' }}</td>
-  </ng-container>
+<div class="desktop-transactions">
+  <table mat-table [dataSource]="transactions()" class="transaction-table">
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef>Date</th>
+      <td mat-cell *matCellDef="let t">
+        {{ t.date | date:'dd/MM/yyyy' }}
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="debtorName">
-    <th mat-header-cell *matHeaderCellDef>Debtor</th>
-    <td mat-cell *matCellDef="let t">{{ t.debtorName }}</td>
-  </ng-container>
+    <ng-container matColumnDef="debtorName">
+      <th mat-header-cell *matHeaderCellDef>Debtor</th>
+      <td mat-cell *matCellDef="let t">
+        {{ t.debtorName }}
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="action">
-    <th mat-header-cell *matHeaderCellDef>Action</th>
-    <td mat-cell *matCellDef="let t">{{ t.resultingAction === 'INCREASE' ? 'Increase' : 'Decrease' }}</td>
-  </ng-container>
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>Action</th>
+      <td mat-cell *matCellDef="let t">
+        {{ t.resultingAction === 'INCREASE' ? 'Increase' : 'Decrease' }}
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="amount">
-    <th mat-header-cell *matHeaderCellDef>Amount</th>
-    <td mat-cell *matCellDef="let t">{{ t.resultingAmount | number:'1.2-2' }} €</td>
-  </ng-container>
+    <ng-container matColumnDef="amount">
+      <th mat-header-cell *matHeaderCellDef>Amount</th>
+      <td mat-cell *matCellDef="let t">
+        {{ t.resultingAmount | number:'1.2-2' }} €
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="note">
-    <th mat-header-cell *matHeaderCellDef>Note</th>
-    <td mat-cell *matCellDef="let t">{{ t.note || '—' }}</td>
-  </ng-container>
+    <ng-container matColumnDef="note">
+      <th mat-header-cell *matHeaderCellDef>Note</th>
+      <td mat-cell *matCellDef="let t">
+        {{ t.note || '—' }}
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="status">
-    <th mat-header-cell *matHeaderCellDef></th>
-    <td mat-cell *matCellDef="let t">
-      @if (t.isLatestInChain && debtUuid()) {
-        <a mat-button [routerLink]="['/debts', debtUuid(), 'transactions', t.uuid, 'correct']">Correct</a>
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let t">
+        @if (t.isLatestInChain && debtUuid()) {
+          <a
+            mat-button
+            [routerLink]="['/debts', debtUuid(), 'transactions', t.uuid, 'correct']">
+            Correct
+          </a>
+        }
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns()"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns();"></tr>
+  </table>
+</div>
+
+
+<div class="mobile-transactions">
+  @for (t of transactions(); track t.uuid) {
+    <article class="transaction-card">
+
+      <div class="transaction-card-header">
+        @if (!debtUuid()) {
+          <strong class="transaction-debtor">
+            {{ t.debtorName }}
+          </strong>
+        }
+
+        <span class="transaction-date">
+          {{ t.date | date:'dd/MM/yyyy' }}
+        </span>
+      </div>
+
+      <div class="transaction-card-main">
+        <span>
+          {{ t.resultingAction === 'INCREASE' ? 'Increase' : 'Decrease' }}
+        </span>
+
+        <strong class="transaction-amount">
+          {{ t.resultingAmount | number:'1.2-2' }} €
+        </strong>
+      </div>
+
+      @if (t.note) {
+        <div class="transaction-note">
+          {{ t.note }}
+        </div>
       }
-    </td>
-  </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns()"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns();"></tr>
-</table>
+      @if (t.isLatestInChain && debtUuid()) {
+        <div class="transaction-card-actions">
+          <a
+            mat-button
+            [routerLink]="['/debts', debtUuid(), 'transactions', t.uuid, 'correct']">
+            Correct
+          </a>
+        </div>
+      }
+
+    </article>
+  }
+</div>
+
 
 @if (transactions().length === 0) {
   <p class="empty-state">No transactions found.</p>

@@ -12,13 +12,14 @@ import { TransactionService } from '../transaction.service';
 import { Transaction, TransactionFilters } from '../../../core/models/transaction-interface';
 import { MatInputModule } from '@angular/material/input';
 import { RouterLink } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-transaction-list',
   standalone: true,
   imports: [
     DecimalPipe, DatePipe, ReactiveFormsModule, MatTableModule, MatPaginatorModule,
-    MatChipsModule, MatFormFieldModule, MatSelectModule, MatDatepickerModule, MatInputModule, RouterLink
+    MatChipsModule, MatFormFieldModule, MatSelectModule, MatDatepickerModule, MatInputModule, RouterLink, MatButtonModule
   ],
   templateUrl: './transaction-list.html',
   styleUrl: './transaction-list.css'

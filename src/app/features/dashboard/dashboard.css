@@ -42,3 +42,24 @@
   font-weight: 500;
   color: #333;
 }
+
+@media (max-width: 768px) {
+  .dashboard-grid {
+    display: flex;
+    flex-direction: column;
+    flex: none;
+    min-height: auto;
+    gap: 16px;
+    padding: 0;
+  }
+
+  .column {
+    height: auto;
+    overflow-y: visible;
+    padding: 12px;
+  }
+
+  .column h2 {
+    font-size: 1.25rem;
+  }
+}

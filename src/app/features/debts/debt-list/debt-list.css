@@ -6,18 +6,43 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .filters {
   display: flex;
-  gap: 16px;
+  gap: 12px;
   flex-wrap: wrap;
   margin-bottom: 16px;
 }
 
+.filters mat-form-field {
+  width: 180px;
+
+  /* More compact Angular Material fields */
+  --mat-form-field-container-height: 48px;
+  --mat-form-field-container-vertical-padding: 12px;
+}
+
 .debt-table {
   width: 100%;
+}
+
+.debt-table .mat-mdc-cell {
+  font-weight: 500;
+  border-bottom: 1px solid #e2ded4;
+}
+
+.debt-table .mat-mdc-row {
+  transition: background-color 0.2s ease;
+}
+
+.debt-table .mat-mdc-row:nth-child(even) {
+  background-color: #faf9f6;
+}
+
+.debt-table .mat-mdc-row:hover {
+  background-color: #f1eee6;
 }
 
 .empty-state {
@@ -28,4 +53,57 @@
 
 :host {
   overflow-y: auto;
+}
+
+
+/* Mobile */
+@media (max-width: 768px) {
+  .filters {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .filters mat-form-field {
+    width: 100%;
+  }
+
+  .header {
+    margin-bottom: 10px;
+  }
+
+  .debt-table {
+    table-layout: fixed;
+    width: 100%;
+  }
+
+  .debt-table .mat-column-debtType,
+  .debt-table .mat-column-debtStatus {
+    display: none;
+  }
+
+  .debt-table .mat-column-debtorName {
+    width: 40%;
+  }
+
+  .debt-table .mat-column-balance {
+    width: 30%;
+  }
+
+  .debt-table .mat-column-actions {
+    width: 30%;
+  }
+
+  .debt-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+  }
+
+  .debt-actions a,
+  .debt-actions button {
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+  }
 }
