@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -20,7 +20,7 @@ export class LoginComponent {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
-  errorMessage = '';
+  errorMessage = signal('');
   sessionExpired = this.route.snapshot.queryParamMap.get('sessionExpired') === 'true';
 
   form = this.fb.nonNullable.group({
@@ -34,14 +34,16 @@ export class LoginComponent {
       return;
     }
 
-    this.errorMessage = '';
+    this.errorMessage.set('');
 
     this.authService.login(this.form.getRawValue()).subscribe({
       next: () => this.router.navigate(['/dashboard']),
       error: (err) => {
-        this.errorMessage = err.status === 401 || err.status === 403
-          ? 'Wrong email or password'
-          : 'Something went wrong, please try again';
+        this.errorMessage.set(
+          err.status === 401 || err.status === 403
+            ? 'Wrong email or password'
+            : 'Something went wrong, please try again'
+        );
       }
     });
   }

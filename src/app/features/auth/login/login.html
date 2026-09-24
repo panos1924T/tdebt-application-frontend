@@ -29,9 +29,11 @@
           }
         </mat-form-field>
 
-        @if (errorMessage) {
-          <p class="error-msg">{{ errorMessage }}</p>
-        }
+        <div class="error-slot">
+          @if (errorMessage()) {
+            <p class="error-msg">{{ errorMessage() }}</p>
+          }
+        </div>
 
         <button mat-raised-button color="primary" type="submit" class="full-width">
           Login
