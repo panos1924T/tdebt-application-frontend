@@ -68,15 +68,21 @@ npm ci
 
 ### 4. Configure the backend connection
 
-The frontend needs the T-Debt backend API.
+For local development, the frontend uses `/api/v1` as its API base path.
 
-For local development:
+The Angular development server uses `proxy.conf.json` to forward `/api` requests to the backend running at:
 
-1. Configure the frontend API base URL to point to the local backend, normally `http://localhost:8080`.
-2. Start the backend and confirm that it runs successfully.
-3. Ensure the backend allows the frontend origin `http://localhost:4200` through its CORS configuration.
+```text
+http://localhost:8080
+```
 
-The exact API URL must match the value used by the Angular services or environment configuration in this repository.
+Start the backend first and make sure its CORS configuration allows:
+
+```text
+http://localhost:4200
+```
+
+No hardcoded backend URL is required in the Angular development environment.
 
 ### 5. Start the development server
 
